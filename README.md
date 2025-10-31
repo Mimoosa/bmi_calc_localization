@@ -9,7 +9,7 @@ This project uses Jenkins to build the JavaFX BMI calculator, create a fat JAR, 
 - The Docker image is built from the provided `Dockerfile`.
 - The image is pushed to Docker Hub: `mimoosamona/bmi_calculator:latest`.
 
-<<img width="1860" height="863" alt="Screenshot 2025-10-30 120451" src="https://github.com/user-attachments/assets/fab9f421-09c3-4ae9-9233-0c6d60cd7b15" />
+<img width="1860" height="863" alt="Screenshot 2025-10-30 120451" src="https://github.com/user-attachments/assets/fab9f421-09c3-4ae9-9233-0c6d60cd7b15" />
 ### Run GUI App
 
 To run the GUI application:
@@ -27,6 +27,9 @@ docker run \
   mimoosamona/bmi_calculator:latest
 ```
 This setup uses WSLg and Wayland/X11 socket sharing to display the JavaFX GUI on Windows.
+
 The application supports multiple languages through resource bundles:
+
 <img width="326" height="633" alt="image" src="https://github.com/user-attachments/assets/c0671b09-9d4f-4933-935f-9034686e1e5f" />
-img width="332" height="629" alt="Screenshot 2025-10-31 142433" src="https://github.com/user-attachments/assets/3ad5f63f-e0a7-4459-aae8-74d44b301eae" />
+
+<img width="332" height="629" alt="Screenshot 2025-10-31 142433" src="https://github.com/user-attachments/assets/3ad5f63f-e0a7-4459-aae8-74d44b301eae" />
