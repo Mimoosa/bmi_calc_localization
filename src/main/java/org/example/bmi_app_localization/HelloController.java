@@ -8,6 +8,7 @@ import javafx.scene.control.TextField;
 
 import java.text.DecimalFormat;
 import java.util.Locale;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 public class HelloController {
@@ -36,7 +37,7 @@ public class HelloController {
     @FXML
     private Button button4;
 
-    private ResourceBundle rb;
+    private Map<String, String> localizedStrings;
 
     public void initialize(){
         onLoadLanguage("en", "US");
@@ -44,27 +45,34 @@ public class HelloController {
 
     public void onLoadLanguage(String language, String country){
         Locale mylocale = new Locale(language, country);
-        rb = ResourceBundle.getBundle("MessagesBundle", mylocale);
-        lblWeight.setText(rb.getString("lblWeight"));
-        lblHeight.setText(rb.getString("lblHeight"));
-        btnCalculate.setText(rb.getString("btnCalculate"));
-        lblResult.setText(rb.getString("lblResult"));
-        lblInvalid.setText(rb.getString("lblInvalid"));
-        button1.setText(rb.getString("button1"));
-        button2.setText(rb.getString("button2"));
-        button3.setText(rb.getString("button3"));
-        button4.setText(rb.getString("button4"));
+
+        lblResult.setText("");
+        localizedStrings = LocalizationService.getLocalizedStrings(mylocale);
+        lblWeight.setText(localizedStrings.getOrDefault("weight", "Weight"));
+        lblHeight.setText(localizedStrings.getOrDefault("height", "Height"));
+        btnCalculate.setText(localizedStrings.getOrDefault("calculate", "Calculate"));
+
     }
     public void onCalculateClick(ActionEvent actionEvent) {
-        String weight = tfWeight.getText();
-        Double weightDouble = Double.parseDouble(weight);
-        String height = tfHeight.getText();
-        Double heightDouble = Double.parseDouble(height);
-        Double result = weightDouble / (heightDouble * heightDouble);
-        System.out.println(result);
-        DecimalFormat df = new DecimalFormat("#.##");
-        String resultStr = df.format(result);
-        lblResultNum.setText(resultStr);
+        try {
+            String weight = tfWeight.getText();
+            Double weightDouble = Double.parseDouble(weight);
+            String height = tfHeight.getText();
+            Double heightDouble = Double.parseDouble(height);
+            Double result = weightDouble / (heightDouble * heightDouble);
+            System.out.println(result);
+            DecimalFormat df = new DecimalFormat("#.##");
+            lblResult.setText(localizedStrings.getOrDefault("result", "Your BMI is"));
+            String resultStr = df.format(result);
+            lblResultNum.setText(resultStr);
+
+            // Save to database
+            String language = Locale.getDefault().getLanguage(); // or store current locale
+            BMIResultService.saveResult(weightDouble, heightDouble, result, language);
+
+        } catch (NumberFormatException e) {
+            lblResult.setText(localizedStrings.getOrDefault("invalid", "Invalid input"));
+        }
     }
 
     public void onENClick(ActionEvent actionEvent) {
